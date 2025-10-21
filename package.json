@@ -1,0 +1,16 @@
+{
+  "type": "module",
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^24.8.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@tx/playwright-core": "github:malkiatTestingxperts/playwright-core-lib",
+    "playwright": "^1.56.1"
+  },
+  "scripts": {
+    "test": "npx playwright test"
+  }
+}
