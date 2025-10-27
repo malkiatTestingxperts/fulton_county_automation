@@ -1,16 +1,13 @@
 {
+  "name": "fulton-county-automation",
+  "version": "1.0.0",
   "type": "module",
-  "devDependencies": {
-    "@playwright/test": "^1.56.1",
-    "@types/node": "^24.8.1",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
-  },
-  "dependencies": {
-    "@tx/playwright-core": "github:malkiatTestingxperts/playwright-core-lib",
-    "playwright": "^1.56.1"
-  },
   "scripts": {
     "test": "npx playwright test"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.49.0",
+    "playwright": "^1.49.0",
+    "typescript": "^5.6.3"
   }
 }
