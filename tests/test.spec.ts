@@ -1,10 +1,10 @@
 import { test } from "@playwright/test";
-import { launchURL, logger, findElementUniversal } from "@tx/playwright-core";
+import { click, launchURL, logger, findElementUniversal } from "@tx/playwright-core";
 
 test("login", async ({ page }) => {
     await launchURL(page, "https://google.com");
     const searchBox = await findElementUniversal(
-        page, ['input[name="3q1"]', '[role="csasombobox1"]'], "Search Box"
+        page, ['input[name="3q1"]', '[jsname="yZiJb0e"]', '[class="gLFyf"]'], "Search Box"
     );
-    await searchBox.click();
+    await click(page, searchBox);
 });
