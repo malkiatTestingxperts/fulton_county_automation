@@ -1,0 +1,40 @@
+import { test, expect } from "@playwright/test";
+import { LoginToHomePage } from "../src/pages/Login.js";
+import { LogOut } from "../src/pages/Logout.js";
+import { SearchPageCode } from "../src/pages/SearchPageCode.js";
+import { CommonActions } from "../src/pages/CommonActions.js";
+import { FixedAssetFI } from "../src/pages/FixedAssetFI.js";
+import { launchURL } from "@tx/playwright-core";
+
+
+test("Create Fixed FI", async ({ page }) => {
+    const login = new LoginToHomePage(page);
+    const logout = new LogOut(page);
+    const searchPage = new SearchPageCode(page);
+    const commonActions = new CommonActions(page);
+    const fixedAssetFI = new FixedAssetFI(page);
+    await launchURL(page, "https://fultoncountyga-npd-temp.cgiadvantage.com/MA1FIN1X1/Advantage4");
+    await login.loginToApplication("msingh", "Testing@123");
+    await searchPage.clicksearchBarDropDownOption();
+    await searchPage.enterTextInSearchBarOption("FI");
+    await searchPage.clickPageCodeOption("Fixed Asset Increase/Decrease");
+    await commonActions.clickCreateButton();
+    await fixedAssetFI.enterTransactionCode("FI");
+    await fixedAssetFI.enterTransactionDepartment("116");
+    await fixedAssetFI.clickAutonumberedFI();
+    await fixedAssetFI.clickContinueButton();
+    await fixedAssetFI.enterFATransactionHeader("Malkiat is very bad tester");
+    await fixedAssetFI.searchAndClickFixedAssetNum();
+    await fixedAssetFI.openThreeDottedMenu();
+    await fixedAssetFI.clickHowToApplyButton();
+    await fixedAssetFI.openAccountingTab();
+    await fixedAssetFI.expandFirstRowOnAccountingTab();
+    await fixedAssetFI.optionCOASubTab();
+    await fixedAssetFI.enterLineAmountInFICOA("50");
+    await fixedAssetFI.searchAndClickApprUnit();
+    await fixedAssetFI.clickValidateButton();
+    await expect(page.locator('#systemFeedbackMessageRibbon')).toContainText('Transaction validated successfully');
+    await fixedAssetFI.clickSubmitButton();
+    await expect(page.locator('#systemFeedbackMessageRibbon')).toContainText('Transaction submitted successfully');
+    await logout.logout();
+});
