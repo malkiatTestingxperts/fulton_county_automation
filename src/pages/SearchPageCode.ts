@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test";
 import { waitForElementToVisible, findElementUniversal, click, type } from "@tx/playwright-core";
-
+import { CommonActions } from "./CommonActions.js";
 export class SearchPageCode {
     constructor(private page: Page) { }
 
@@ -62,11 +62,13 @@ export class SearchPageCode {
     }
 
     async clickPageCodeOption(labelText: string) {
+        const commonActions = new CommonActions(this.page);
         const parameterizedXPath = `xpath=.//*[@data-qa-id[contains(., 'pgCdLookupResult')]]//span[@aria-label='${labelText}']`;
         await waitForElementToVisible(this.page, parameterizedXPath);
         await click(this.page, parameterizedXPath);
-        const overlayContainerValid = await findElementUniversal(this.page, this.overLayContainer, "Overlay Container");
-        await this.page.locator(overlayContainerValid).waitFor({ state: 'detached', timeout: 10000 });
+        await commonActions.waitForWithRetry(this.page.locator('button[name*="Create"]'), this.page, 3, 2000);
+        // const overlayContainerValid = await findElementUniversal(this.page, this.overLayContainer, "Overlay Container");
+        // await this.page.locator(overlayContainerValid).waitFor({ state: 'hidden', timeout: 10000 });
         const createButtonValid = await findElementUniversal(this.page, this.createButton, "Create Button");
         await waitForElementToVisible(this.page, createButtonValid);
     }

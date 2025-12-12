@@ -1,11 +1,11 @@
 import { Page, Locator } from "@playwright/test";
-import { waitForElementToVisible, findElementUniversal, click, type } from "@tx/playwright-core";
+import { waitForElementToVisible, getText, findElementUniversal, click, type } from "@tx/playwright-core";
 
 export class CommonActions {
     constructor(private page: Page) { }
 
     createButton = ['button[name*="Create"]', '[jsname="LgbsSe"]', '[class*="VfPpkd-LgbsSe"]'];
-
+    ribbonMessage = ['#systemFeedbackMessageRibbon', '.feedbackMessageRibbon', '.adv-feedback-message-ribbon'];
 
     async clickCreateButton() {
         const createButtonValid = await findElementUniversal(this.page, this.createButton, "Create Button");
@@ -82,6 +82,13 @@ export class CommonActions {
             }
         }
     }
+
+
+    async expectFeedbackMessage() {
+        const createButtonValid = await findElementUniversal(this.page, this.ribbonMessage, "Ribbon Message");
+        const text = await getText(this.page, createButtonValid);
+        return text.trim()
+    }
 }
 export async function waitForElementToHide(element: Locator, timeout = 12000): Promise<boolean> {
     try {
@@ -102,5 +109,8 @@ export async function waitForInputValue(locator: Locator, page: Page, retries = 
         return value;
     }
     throw new Error(`Expected input value "${expectedValue}" not found after ${retries} retries.`);
+
 }
+
+
 
