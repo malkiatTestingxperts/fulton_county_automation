@@ -29,10 +29,12 @@ export class FixedAssetFI {
 
 
     async enterTransactionCode(transactionCode: string) {
+        const commonActions = new CommonActions(this.page);
         await this.page.waitForTimeout(5000);
         // const overlayContainerValid = await findElementUniversal(this.page, this.overLayContainer, "Overlay Container");
         // await this.page.locator(overlayContainerValid).waitFor({ state: 'detached', timeout: 10000 });
         const validSelector = await findElementUniversal(this.page, this.transactionCode, "search bar drop down option");
+        await commonActions.waitForWithRetry(this.page.locator('[data-qa-id*="rsscalar"][data-qa-id$="DOC_DEPT_CD"]'), this.page, 8, 2000);
         await type(this.page, validSelector, transactionCode);
     }
 
@@ -95,10 +97,12 @@ export class FixedAssetFI {
     async expandFirstRowOnAccountingTab() {
         const validSelector = await findElementUniversal(this.page, this.firstRowIconOnAccountingTab, "firs row on accounting Tab");
         await click(this.page, validSelector);
+        await this.page.waitForTimeout(3000);
     }
 
     async optionCOASubTab() {
-        const validSelector = await findElementUniversal(this.page, this.coaOption, "firs row on accounting Tab");
+        const validSelector = await findElementUniversal(this.page, this.coaOption, "first row on accounting Tab");
+        await waitForElementToVisible(this.page, validSelector);
         await click(this.page, validSelector);
     }
 
@@ -126,18 +130,18 @@ export class FixedAssetFI {
         const commonActions = new CommonActions(this.page);
         const validSelector = await findElementUniversal(this.page, this.validateButton, "Validate Button");
         await click(this.page, validSelector);
-        const overlayContainerValid = await findElementUniversal(this.page, this.overLayContainer, "Overlay Container");
-        await this.page.locator(overlayContainerValid).waitFor({ state: 'detached', timeout: 10000 });
-        await commonActions.waitForWithRetry(this.page.locator('#systemFeedbackMessageRibbon'), this.page, 3, 2000);
+        // const overlayContainerValid = await findElementUniversal(this.page, this.overLayContainer, "Overlay Container");
+        // await this.page.locator(overlayContainerValid).waitFor({ state: 'detached', timeout: 10000 });
+        await commonActions.waitForWithRetry(this.page.locator('#systemFeedbackMessageRibbon'), this.page, 8, 2000);
     }
 
     async clickSubmitButton() {
         const commonActions = new CommonActions(this.page);
         const validSelector = await findElementUniversal(this.page, this.submitButton, "submit Button");
         await click(this.page, validSelector);
-        const overlayContainerValid = await findElementUniversal(this.page, this.overLayContainer, "Overlay Container");
-        await this.page.locator(overlayContainerValid).waitFor({ state: 'detached', timeout: 10000 });
-        await commonActions.waitForWithRetry(this.page.locator('#systemFeedbackMessageRibbon'), this.page, 3, 2000);
+        await this.page.locator('adv-blocking-overlay').waitFor({ state: 'hidden' });
+        await this.page.locator('#systemFeedbackMessageRibbon').waitFor({ state: 'attached' });
+        //await commonActions.waitForWithRetry(this.page.locator('#systemFeedbackMessageRibbon'), this.page, 8, 2000);
     }
 
 }

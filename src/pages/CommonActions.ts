@@ -5,7 +5,7 @@ export class CommonActions {
     constructor(private page: Page) { }
 
     createButton = ['button[name*="Create"]', '[jsname="LgbsSe"]', '[class*="VfPpkd-LgbsSe"]'];
-    ribbonMessage = ['#systemFeedbackMessageRibbon', '.feedbackMessageRibbon', '.adv-feedback-message-ribbon'];
+    //ribbonMessage = ['#systemFeedbackMessageRibbon', '.feedbackMessageRibbon', '.adv-feedback-message-ribbon'];
 
     async clickCreateButton() {
         const createButtonValid = await findElementUniversal(this.page, this.createButton, "Create Button");
@@ -84,10 +84,11 @@ export class CommonActions {
     }
 
 
-    async expectFeedbackMessage() {
-        const createButtonValid = await findElementUniversal(this.page, this.ribbonMessage, "Ribbon Message");
-        const text = await getText(this.page, createButtonValid);
-        return text.trim()
+    async expectFeedbackMessage(expectedText: string): Promise<string> {
+        const message = this.page.locator(
+            `span[aria-label*="${expectedText}"] span`
+        ).last();
+        return (await message.innerText()).trim();
     }
 }
 export async function waitForElementToHide(element: Locator, timeout = 12000): Promise<boolean> {

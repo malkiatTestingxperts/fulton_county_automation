@@ -55,8 +55,8 @@ test.describe('GAFULFA-1007.5-Create a FI transaction to decrease a assets value
         await fixedAssetFI.enterTransactionDepartment(transactionDepartment);
         await fixedAssetFI.clickAutonumberedFI();
         await fixedAssetFI.clickContinueButton();
-        const faTxnHeader = generateUniqueName('MainAcc');
-        await fixedAssetFI.enterFATransactionHeader("Test_" + faTxnHeader);
+        const faTxnHeader = generateUniqueName('Txn_');
+        await fixedAssetFI.enterFATransactionHeader(faTxnHeader);
         await fixedAssetFI.searchAndClickFixedAssetNum();
         await fixedAssetFI.openThreeDottedMenu();
         await fixedAssetFI.clickHowToApplyButton();
@@ -66,10 +66,10 @@ test.describe('GAFULFA-1007.5-Create a FI transaction to decrease a assets value
         await fixedAssetFI.enterLineAmountInFICOA("50");
         await fixedAssetFI.searchAndClickApprUnit();
         await fixedAssetFI.clickValidateButton();
-        const isValidationMessagePresent = await commonActions.expectFeedbackMessage();
-        expect(isValidationMessagePresent).toContain('Transaction validated successfully');
+        const isValidationMessage = await commonActions.expectFeedbackMessage('Transaction validated successfully');
+        expect(isValidationMessage).toContain('Transaction validated successfully');
         await fixedAssetFI.clickSubmitButton();
-        const isSubmitMessagePresent = await commonActions.expectFeedbackMessage();
+        const isSubmitMessagePresent = await commonActions.expectFeedbackMessage('Transaction submitted successfully');
         expect(isSubmitMessagePresent).toContain('Transaction submitted successfully');
         await logout.logout();
     });

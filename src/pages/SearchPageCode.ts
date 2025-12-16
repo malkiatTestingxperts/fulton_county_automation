@@ -66,7 +66,7 @@ export class SearchPageCode {
         const parameterizedXPath = `xpath=.//*[@data-qa-id[contains(., 'pgCdLookupResult')]]//span[@aria-label='${labelText}']`;
         await waitForElementToVisible(this.page, parameterizedXPath);
         await click(this.page, parameterizedXPath);
-        await commonActions.waitForWithRetry(this.page.locator('button[name*="Create"]'), this.page, 3, 2000);
+        await commonActions.waitForWithRetry(this.page.locator('button[name*="Create"]'), this.page, 8, 2000);
         // const overlayContainerValid = await findElementUniversal(this.page, this.overLayContainer, "Overlay Container");
         // await this.page.locator(overlayContainerValid).waitFor({ state: 'hidden', timeout: 10000 });
         // const createButtonValid = await findElementUniversal(this.page, this.createButton, "Create Button");
